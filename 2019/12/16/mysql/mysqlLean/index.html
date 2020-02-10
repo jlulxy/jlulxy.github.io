@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="mysql," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="参考文章链接 mysql服务搭建前置准备卸载旧mysql &amp;搭建环境创建用户组 1234567891011121314查看rpm包rpm -qa|grep mysql 若有可用rpm -e卸载查找mysql残留包，有则删除，没有则忽略find &#x2F; -name mysql安装相关依赖：yum -y install make gcc-c++ cmake bison-devel ncurses-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql服务搭建- mysql学习笔记">
+<meta property="og:url" content="http://yoursite.com/2019/12/16/mysql/mysqlLean/index.html">
+<meta property="og:site_name" content="yvanliUpdagre">
+<meta property="og:description" content="参考文章链接 mysql服务搭建前置准备卸载旧mysql &amp;搭建环境创建用户组 1234567891011121314查看rpm包rpm -qa|grep mysql 若有可用rpm -e卸载查找mysql残留包，有则删除，没有则忽略find &#x2F; -name mysql安装相关依赖：yum -y install make gcc-c++ cmake bison-devel ncurses-">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-12-16T12:26:01.000Z">
+<meta property="article:modified_time" content="2020-02-04T11:37:22.464Z">
+<meta property="article:author" content="yvanli">
+<meta property="article:tag" content="mysql">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/16/mysql/mysqlLean/"/>
+
+
+
+
+
+  <title>mysql服务搭建- mysql学习笔记 | yvanliUpdagre</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">yvanliUpdagre</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">专注提升</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/16/mysql/mysqlLean/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yvanli">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yvanliUpdagre">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">mysql服务搭建- mysql学习笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-12-16T20:26:01+08:00">
+                2019-12-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://juejin.im/post/5cee01c0f265da1bca51bdaf" target="_blank" rel="noopener">参考文章链接</a></p>
+<h2 id="mysql服务搭建"><a href="#mysql服务搭建" class="headerlink" title="mysql服务搭建"></a>mysql服务搭建</h2><h3 id="前置准备"><a href="#前置准备" class="headerlink" title="前置准备"></a>前置准备</h3><p>卸载旧mysql &amp;搭建环境创建用户组</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">查看rpm包</span><br><span class="line"></span><br><span class="line">rpm -qa|grep mysql 若有可用rpm -e卸载</span><br><span class="line"></span><br><span class="line">查找mysql残留包，有则删除，没有则忽略</span><br><span class="line"></span><br><span class="line">find / -name mysql</span><br><span class="line"></span><br><span class="line">安装相关依赖：</span><br><span class="line">yum -y install make gcc-c++ cmake bison-devel ncurses-devel numactl libaio</span><br><span class="line"></span><br><span class="line">最好要创建用户和用户组，用来权限管理</span><br><span class="line"></span><br><span class="line">groupadd mysql useradd -s /sbin/nologin -g mysql -M mysql</span><br></pre></td></tr></table></figure>
+
+<h3 id="下载二进制方式下载安装"><a href="#下载二进制方式下载安装" class="headerlink" title="下载二进制方式下载安装"></a>下载二进制方式下载安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">查看rpm包</span><br><span class="line"></span><br><span class="line">rpm -qa|grep mysql 若有可用rpm -e卸载</span><br><span class="line"></span><br><span class="line">查找mysql残留包，有则删除，没有则忽略</span><br><span class="line"></span><br><span class="line">find / -name mysql</span><br><span class="line"></span><br><span class="line">安装相关依赖：</span><br><span class="line">yum -y install make gcc-c++ cmake bison-devel ncurses-devel numactl libaio</span><br><span class="line"></span><br><span class="line">最好要创建用户和用户组，用来权限管理</span><br><span class="line"></span><br><span class="line">groupadd mysql useradd -s /sbin/nologin -g mysql -M mysql</span><br></pre></td></tr></table></figure>
+
+<h3 id="下载解压mysql-配置文件夹权限"><a href="#下载解压mysql-配置文件夹权限" class="headerlink" title="下载解压mysql 配置文件夹权限"></a>下载解压mysql 配置文件夹权限</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/</span><br><span class="line">//wget下载或者本地下载后上传</span><br><span class="line">wget https://downloads.mysql.com/archives/get/file/mysql-5.7.23-linux-glibc2.12-x86_64.tar.gz</span><br><span class="line">//解压安装包</span><br><span class="line">tar -zxvf mysql-5.7.23-linux-glibc2.12-x86_64.tar.gz</span><br><span class="line">//解压后为了方便后面操作可把解压后文件名修改为mysql</span><br><span class="line">mv mysql-5.7.23-linux-glibc2.12-x86_64 mysql</span><br><span class="line">//更改文件夹所属</span><br><span class="line">chown -R mysql.mysql /usr/<span class="built_in">local</span>/mysql/</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建mysql相关目录"><a href="#创建mysql相关目录" class="headerlink" title="创建mysql相关目录"></a>创建mysql相关目录</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /data/mysql/&#123;data,logs,tmp&#125;</span><br><span class="line">//更改文件夹所属</span><br><span class="line">chown -R mysql.mysql /data/mysql/</span><br><span class="line">注意后续data logs tmp会在配置中记性配置</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建mysql配置文件my-cof"><a href="#创建mysql配置文件my-cof" class="headerlink" title="创建mysql配置文件my.cof"></a>创建mysql配置文件my.cof</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">我操作的时候发现 /etc/my.conf 已经存在配置如下信息</span><br><span class="line">vi /etc/my.cnf</span><br><span class="line"><span class="comment"># 简单模板如下：</span></span><br><span class="line">[client]</span><br><span class="line">port            = 3306</span><br><span class="line">socket          = /data/mysql/tmp/mysql.sock</span><br><span class="line"></span><br><span class="line">[mysqld]</span><br><span class="line">user = mysql</span><br><span class="line">basedir = /usr/<span class="built_in">local</span>/mysql        </span><br><span class="line">datadir = /data/mysql/data  </span><br><span class="line">port = 3306               </span><br><span class="line"></span><br><span class="line">socket = /data/mysql/tmp/mysql.sock</span><br><span class="line">pid-file  = /data/mysql/tmp/mysqld.pid</span><br><span class="line">tmpdir = /data/mysql/tmp    </span><br><span class="line">skip_name_resolve = 1</span><br><span class="line">symbolic-links=0</span><br><span class="line">max_connections = 2000</span><br><span class="line">group_concat_max_len = 1024000</span><br><span class="line">sql_mode = NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION</span><br><span class="line">lower_case_table_names = 1</span><br><span class="line">log_timestamps=SYSTEM</span><br><span class="line">character-set-server = utf8</span><br><span class="line">interactive_timeout = 1800  </span><br><span class="line">wait_timeout = 1800</span><br><span class="line">max_allowed_packet = 32M</span><br><span class="line">binlog_cache_size = 4M</span><br><span class="line">sort_buffer_size = 2M</span><br><span class="line">read_buffer_size = 4M</span><br><span class="line">join_buffer_size = 4M</span><br><span class="line">tmp_table_size = 96M</span><br><span class="line">max_heap_table_size = 96M</span><br><span class="line">max_length_for_sort_data = 8096</span><br><span class="line"></span><br><span class="line"><span class="comment">#logs</span></span><br><span class="line">server-id = 1003306</span><br><span class="line"><span class="built_in">log</span>-error = /data/mysql/logs/error.log</span><br><span class="line">slow_query_log = 1</span><br><span class="line">slow_query_log_file = /data/mysql/logs/slow.log</span><br><span class="line">long_query_time = 3</span><br><span class="line"><span class="built_in">log</span>-bin = /data/mysql/logs/binlog</span><br><span class="line">binlog_format = row</span><br><span class="line">expire_logs_days = 15</span><br><span class="line">log_bin_trust_function_creators = 1</span><br><span class="line">relay-log = /data/mysql/logs/relay-bin</span><br><span class="line">relay-log-recovery = 1  </span><br><span class="line">relay_log_purge = 1  </span><br><span class="line"></span><br><span class="line"><span class="comment">#innodb  </span></span><br><span class="line">innodb_file_per_table = 1</span><br><span class="line">innodb_log_buffer_size = 16M</span><br><span class="line">innodb_log_file_size = 256M</span><br><span class="line">innodb_log_files_in_group = 2</span><br><span class="line">innodb_io_capacity = 2000</span><br><span class="line">innodb_io_capacity_max = 4000</span><br><span class="line">innodb_flush_neighbors = 0</span><br><span class="line">innodb_flush_method = O_DIRECT</span><br><span class="line">innodb_autoinc_lock_mode = 2</span><br><span class="line">innodb_read_io_threads = 8</span><br><span class="line">innodb_write_io_threads = 8</span><br><span class="line">innodb_buffer_pool_size = 2G</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置mysql-server"><a href="#配置mysql-server" class="headerlink" title="配置mysql.server"></a>配置mysql.server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d存放服务的启停脚本</span><br><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/mysql/support-files</span><br><span class="line">cp mysql.server /etc/init.d/mysql</span><br><span class="line">vi /etc/init.d/mysql   </span><br><span class="line"><span class="comment"># 修改目录位置</span></span><br><span class="line">basedir=/usr/<span class="built_in">local</span>/mysql</span><br><span class="line">datadir=/data/mysql/data</span><br><span class="line"></span><br><span class="line"><span class="comment"># 注册开机启动服务</span></span><br><span class="line">chkconfig --add mysql</span><br><span class="line">chkconfig --list</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动mysql服务"><a href="#启动mysql服务" class="headerlink" title="启动mysql服务"></a>启动mysql服务</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"PATH=<span class="variable">$PATH</span>:/usr/local/mysql/bin  "</span> &gt;&gt; /etc/profile  </span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"PATH=<span class="variable">$PATH</span>:/usr/local/mysql/bin  "</span> &gt;&gt; /etc/profile  </span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动mysql服务</span></span><br><span class="line">service mysql start</span><br><span class="line"><span class="comment"># 使用初始密码登录mysql服务 并修改密码</span></span><br><span class="line">mysql -uroot -p</span><br><span class="line">alter user <span class="string">'root'</span>@<span class="string">'localhost'</span> identified by <span class="string">'root'</span>;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mysql/" rel="tag"># mysql</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/17/mysql/mysql%E6%9E%B6%E6%9E%84%E5%92%8C%E5%8E%86%E5%8F%B2/" rel="prev" title="mysql架构和历史">
+                mysql架构和历史 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">yvanli</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#mysql服务搭建"><span class="nav-number">1.</span> <span class="nav-text">mysql服务搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#前置准备"><span class="nav-number">1.1.</span> <span class="nav-text">前置准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下载二进制方式下载安装"><span class="nav-number">1.2.</span> <span class="nav-text">下载二进制方式下载安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下载解压mysql-配置文件夹权限"><span class="nav-number">1.3.</span> <span class="nav-text">下载解压mysql 配置文件夹权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建mysql相关目录"><span class="nav-number">1.4.</span> <span class="nav-text">创建mysql相关目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建mysql配置文件my-cof"><span class="nav-number">1.5.</span> <span class="nav-text">创建mysql配置文件my.cof</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置mysql-server"><span class="nav-number">1.6.</span> <span class="nav-text">配置mysql.server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动mysql服务"><span class="nav-number">1.7.</span> <span class="nav-text">启动mysql服务</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yvanli</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

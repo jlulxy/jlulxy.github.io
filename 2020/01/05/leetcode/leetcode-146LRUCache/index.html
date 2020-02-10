@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="leetcode,LRU,Cache," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="LRU Cahce 思路演进LRU第一版本思想头尾位独立处理实现复杂容易出错。采用map实现o(1)获取使用双向链表控制LRU，一直有个用例不过golang 实现如下：测试用例 12 &#x2F; 18 个通过测试用例.经过debug后发现为题判断如果是头指针和移除节点一致时处理除了问题 123456789101112131415161718192021222324252627282930313233343">
+<meta property="og:type" content="article">
+<meta property="og:title" content="leetcode-146LRUCache">
+<meta property="og:url" content="http://yoursite.com/2020/01/05/leetcode/leetcode-146LRUCache/index.html">
+<meta property="og:site_name" content="yvanliUpdagre">
+<meta property="og:description" content="LRU Cahce 思路演进LRU第一版本思想头尾位独立处理实现复杂容易出错。采用map实现o(1)获取使用双向链表控制LRU，一直有个用例不过golang 实现如下：测试用例 12 &#x2F; 18 个通过测试用例.经过debug后发现为题判断如果是头指针和移除节点一致时处理除了问题 123456789101112131415161718192021222324252627282930313233343">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-01-05T04:34:03.000Z">
+<meta property="article:modified_time" content="2020-02-04T11:37:22.463Z">
+<meta property="article:author" content="yvanli">
+<meta property="article:tag" content="leetcode">
+<meta property="article:tag" content="LRU">
+<meta property="article:tag" content="Cache">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/01/05/leetcode/leetcode-146LRUCache/"/>
+
+
+
+
+
+  <title>leetcode-146LRUCache | yvanliUpdagre</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">yvanliUpdagre</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">专注提升</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/05/leetcode/leetcode-146LRUCache/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yvanli">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yvanliUpdagre">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">leetcode-146LRUCache</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-01-05T12:34:03+08:00">
+                2020-01-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="LRU-Cahce-思路演进"><a href="#LRU-Cahce-思路演进" class="headerlink" title="LRU Cahce 思路演进"></a>LRU Cahce 思路演进</h3><h4 id="LRU第一版本思想"><a href="#LRU第一版本思想" class="headerlink" title="LRU第一版本思想"></a>LRU第一版本思想</h4><p><strong>头尾位独立处理实现复杂容易出错。</strong><br>采用map实现o(1)获取<br>使用双向链表控制LRU，一直有个用例不过<br>golang 实现如下：测试用例 12 / 18 个通过测试用例.<br>经过debug后发现为题判断如果是头指针和移除节点一致时处理除了问题</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> LRUCache struct &#123;</span><br><span class="line">    dataMap map[int]*ListDataNode</span><br><span class="line">    head *ListDataNode</span><br><span class="line">    tail *ListDataNode</span><br><span class="line">    capacity int</span><br><span class="line">    use int</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">type</span> ListDataNode struct&#123;</span><br><span class="line">    data  int</span><br><span class="line">    key   int</span><br><span class="line">    pre *ListDataNode</span><br><span class="line">    next *ListDataNode</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">func Constructor(capacity int) LRUCache &#123;</span><br><span class="line">    Cache :=LRUCache&#123;</span><br><span class="line">        dataMap :make(map[int]*ListDataNode,capacity),</span><br><span class="line">        head :nil,</span><br><span class="line">        tail :nil,</span><br><span class="line">        capacity: capacity,</span><br><span class="line">        use:0,</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> Cache</span><br><span class="line">&#125;</span><br><span class="line">//取出操作的节点</span><br><span class="line">func (this *LRUCache) TakeOutNode( node *ListDataNode)&#123;</span><br><span class="line">    <span class="keyword">if</span> node.pre!=nil&#123;</span><br><span class="line">        node.pre.next = node.next</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> node.next !=nil&#123;</span><br><span class="line">        node.next.pre = node.pre</span><br><span class="line">    &#125;</span><br><span class="line">    //node 是尾节点，尾节点要前移动</span><br><span class="line">    <span class="keyword">if</span> node == this.tail&#123;</span><br><span class="line">        this.tail = node.pre</span><br><span class="line">    &#125;</span><br><span class="line">    /*</span><br><span class="line">    //node是头节点，头节点滞空</span><br><span class="line">    <span class="keyword">if</span> node == this.head&#123;</span><br><span class="line">        this.head = nil</span><br><span class="line">    &#125;</span><br><span class="line">    */</span><br><span class="line">    上面是错误的写法这里更正下,移除节点是头，并不意味着链表中没有头节点啦，所以这里不应应该直接指空</span><br><span class="line">    <span class="keyword">if</span> node == this.head&#123;</span><br><span class="line">        this.head = node.next</span><br><span class="line">    &#125;</span><br><span class="line">    //养成好习惯不用的指针处理掉</span><br><span class="line">    node.pre = nil</span><br><span class="line">    node.next = nil</span><br><span class="line">&#125;</span><br><span class="line">func (this *LRUCache) Get(key int) int &#123;</span><br><span class="line">    <span class="keyword">if</span> node ,ok := this.dataMap[key];ok&#123;</span><br><span class="line">        this.TakeOutNode(node)</span><br><span class="line">        this.AddHead(node)</span><br><span class="line">        <span class="built_in">return</span> node.data</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> -1    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//把刚操作的放在最前面</span><br><span class="line">func (this *LRUCache) Put(key int, value int)  &#123;</span><br><span class="line">    //检查是否存在，存在的直接更新值同时把节点移到head</span><br><span class="line">    <span class="keyword">if</span>  node ,ok := this.dataMap[key];ok&#123;</span><br><span class="line">		node.data = value</span><br><span class="line">        node.key = key</span><br><span class="line">        this.TakeOutNode(node)</span><br><span class="line">		this.AddHead(node)</span><br><span class="line">		<span class="built_in">return</span> </span><br><span class="line">	&#125;</span><br><span class="line">    <span class="keyword">if</span> this.use &gt;= this.capacity&#123;</span><br><span class="line">        //队列满了先去掉队列尾巴把再插入</span><br><span class="line">        this.DeleteTailNode()</span><br><span class="line">    &#125;</span><br><span class="line">    node := &amp;ListDataNode&#123;</span><br><span class="line">        data:value,</span><br><span class="line">        key:key,</span><br><span class="line">    &#125;</span><br><span class="line">    this.dataMap[key] = node</span><br><span class="line">    this.AddHead(node)</span><br><span class="line">    this.use++</span><br><span class="line">&#125;</span><br><span class="line">//把节点插入头里面</span><br><span class="line">func (this *LRUCache) AddHead(node *ListDataNode)&#123;</span><br><span class="line">        <span class="keyword">if</span> this.head == nil&#123;</span><br><span class="line">            this.head = node</span><br><span class="line">            this.tail = node</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            //把该节点放入队列头</span><br><span class="line">            tmp :=this.head</span><br><span class="line">            this.head = node</span><br><span class="line">            node.next = tmp</span><br><span class="line">            tmp.pre = node          </span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//删除尾部节点</span><br><span class="line">func (this *LRUCache)<span class="function"><span class="title">DeleteTailNode</span></span>()&#123;</span><br><span class="line">    //获取尾节点</span><br><span class="line">    <span class="keyword">if</span> this.tail == nil&#123;</span><br><span class="line">        <span class="built_in">return</span> </span><br><span class="line">    &#125;</span><br><span class="line">    key := this.tail.key</span><br><span class="line">    <span class="keyword">if</span> _,ok :=this.dataMap[key];ok&#123;</span><br><span class="line">        this.dataMap[key] = nil</span><br><span class="line">        delete(this.dataMap,key)</span><br><span class="line">        //从尾部节点拿掉</span><br><span class="line">        tmp := this.tail</span><br><span class="line">        this.tail = tmp.pre</span><br><span class="line">        <span class="keyword">if</span> tmp.pre !=nil&#123;</span><br><span class="line">            tmp.pre.next = nil</span><br><span class="line">        &#125;</span><br><span class="line">        this.use--</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="LRU第二版本思想"><a href="#LRU第二版本思想" class="headerlink" title="LRU第二版本思想"></a>LRU第二版本思想</h4><p><strong>独立申请头尾哨兵节点，数据节点不在可能是头或尾部节点，插入和移除不用考虑过多情况实现简洁，不过在空间很小的情况下会多占两个节点可能空间会多O(2),但是带来的简洁性更高</strong></p>
+<p>代码如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> LRUCache struct &#123;</span><br><span class="line">	dataMap map[int]*ListDataNode</span><br><span class="line">	head *ListDataNode</span><br><span class="line">	tail *ListDataNode</span><br><span class="line">	capacity int</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">type</span> ListDataNode struct&#123;</span><br><span class="line">	data  int</span><br><span class="line">	key   int</span><br><span class="line">	pre *ListDataNode</span><br><span class="line">	next *ListDataNode</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">func Constructor(capacity int) LRUCache &#123;</span><br><span class="line">	head ,tail := new(ListDataNode),new(ListDataNode)</span><br><span class="line">    // 初始化cache 头尾相连作为哨兵，从头插入，从尾部移除</span><br><span class="line">	head.next = tail</span><br><span class="line">	tail.pre = head</span><br><span class="line">	head.next = tail</span><br><span class="line">	tail.pre = head</span><br><span class="line">	Cache :=LRUCache&#123;</span><br><span class="line">		dataMap :make(map[int]*ListDataNode,capacity),</span><br><span class="line">		head :head,</span><br><span class="line">		tail :tail,</span><br><span class="line">		capacity: capacity,</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">return</span> Cache</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 移除节点</span><br><span class="line">func (this *LRUCache) remove( node *ListDataNode)&#123;</span><br><span class="line">	node.pre.next = node.next</span><br><span class="line">	node.next.pre = node.pre</span><br><span class="line">    node.next = nil</span><br><span class="line">    node.pre = nil</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 插入头后面进入</span><br><span class="line">func (this *LRUCache) insertHead (node *ListDataNode)&#123;</span><br><span class="line">	head := this.head</span><br><span class="line">	node.next = head.next</span><br><span class="line">	node.pre = head</span><br><span class="line">	head.next.pre = node</span><br><span class="line">	head.next = node</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (this *LRUCache) Get(key int) int &#123;</span><br><span class="line">	<span class="keyword">if</span> node ,ok := this.dataMap[key];ok&#123;</span><br><span class="line">		this.remove(node)</span><br><span class="line">		this.insertHead(node)</span><br><span class="line">		<span class="built_in">return</span> node.data</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">return</span> -1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//把刚操作的放在最前面</span><br><span class="line">func (this *LRUCache) Put(key int, value int)  &#123;</span><br><span class="line">	<span class="keyword">if</span>  node ,ok := this.dataMap[key];ok&#123;</span><br><span class="line">		node.data = value</span><br><span class="line">		this.remove(node)</span><br><span class="line">		this.insertHead(node)</span><br><span class="line">		<span class="built_in">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> len(this.dataMap) &gt;= this.capacity&#123;</span><br><span class="line">		//队列满了先去掉队列尾巴把再插入</span><br><span class="line">		node := this.tail.pre</span><br><span class="line">		this.remove(node)</span><br><span class="line">		delete(this.dataMap,node.key)</span><br><span class="line">	&#125;</span><br><span class="line">	node := &amp;ListDataNode&#123;</span><br><span class="line">		data:value,</span><br><span class="line">		key:key,</span><br><span class="line">	&#125;</span><br><span class="line">	this.dataMap[key] = node</span><br><span class="line">	this.insertHead(node)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/leetcode/" rel="tag"># leetcode</a>
+          
+            <a href="/tags/LRU/" rel="tag"># LRU</a>
+          
+            <a href="/tags/Cache/" rel="tag"># Cache</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/01/03/golang%E9%9A%8F%E7%AC%94/workPool%E5%AE%9E%E7%8E%B0/" rel="next" title="workPool实现">
+                <i class="fa fa-chevron-left"></i> workPool实现
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/01/11/leetcode/62%E4%B8%8D%E5%90%8C%E8%B7%AF%E5%BE%84/" rel="prev" title="62不同路径">
+                62不同路径 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">yvanli</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#LRU-Cahce-思路演进"><span class="nav-number">1.</span> <span class="nav-text">LRU Cahce 思路演进</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#LRU第一版本思想"><span class="nav-number">1.1.</span> <span class="nav-text">LRU第一版本思想</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LRU第二版本思想"><span class="nav-number">1.2.</span> <span class="nav-text">LRU第二版本思想</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yvanli</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

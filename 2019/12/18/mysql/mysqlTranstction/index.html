@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="mysql,transction," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="mysql事务可以说无论去哪里面试mysql的事务和锁一定会被问到的，要回答并答的优雅 事务事务的概念：易主原子性的sql查询，或者说一个独立的工作单元。如果数据引擎能成功的对数据库应用该组查询的全部语句，那么就执行改组查询，如果其中一条语句因为其他原因无法执行，那么所有的语句都不会执行。事务内的语句要不全部执行，要么全部执行失败。（原子性我理解就是保证一系列操作像最基本的原子一样不能被拆分不能分">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysqlTranstction">
+<meta property="og:url" content="http://yoursite.com/2019/12/18/mysql/mysqlTranstction/index.html">
+<meta property="og:site_name" content="yvanliUpdagre">
+<meta property="og:description" content="mysql事务可以说无论去哪里面试mysql的事务和锁一定会被问到的，要回答并答的优雅 事务事务的概念：易主原子性的sql查询，或者说一个独立的工作单元。如果数据引擎能成功的对数据库应用该组查询的全部语句，那么就执行改组查询，如果其中一条语句因为其他原因无法执行，那么所有的语句都不会执行。事务内的语句要不全部执行，要么全部执行失败。（原子性我理解就是保证一系列操作像最基本的原子一样不能被拆分不能分">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-12-18T13:05:05.000Z">
+<meta property="article:modified_time" content="2020-02-04T11:37:22.465Z">
+<meta property="article:author" content="yvanli">
+<meta property="article:tag" content="mysql,transction">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/18/mysql/mysqlTranstction/"/>
+
+
+
+
+
+  <title>mysqlTranstction | yvanliUpdagre</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">yvanliUpdagre</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">专注提升</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/18/mysql/mysqlTranstction/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yvanli">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yvanliUpdagre">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">mysqlTranstction</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-12-18T21:05:05+08:00">
+                2019-12-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="mysql事务"><a href="#mysql事务" class="headerlink" title="mysql事务"></a>mysql事务</h3><p>可以说无论去哪里面试mysql的事务和锁一定会被问到的，要回答并答的优雅</p>
+<h4 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h4><p>事务的概念：易主原子性的sql查询，或者说一个独立的工作单元。如果数据引擎能成功的对数据库应用该组查询的全部语句，那么就执行改组查询，如果其中一条语句因为其他原因无法执行，那么所有的语句都不会执行。事务内的语句要不全部执行，要么全部执行失败。（原子性我理解就是保证一系列操作像最基本的原子一样不能被拆分不能分开成功）</p>
+<p>必须注意的是:<strong>事务是在一系列能力和基础功能下实现的，如果系统没有经过ACID的严格测试，空谈事务是没有意义的。</strong></p>
+<h5 id="原子性（atomicity）"><a href="#原子性（atomicity）" class="headerlink" title="原子性（atomicity）"></a>原子性（atomicity）</h5><p>一个事务必须呗是谓一个不可分割的最小工作单元，整个事务中的所有操作要么<strong>全部提交成功</strong>，要么<strong>全部失败回滚</strong>，对于一个事务，不可能只执行其中的一部分这就是事务的原子性。<br>还是上面加黑的那句话，事务的定义也是基于原子性的，没有实现原子性就不会达成事务的定义</p>
+<h5 id="一致性（consistency）"><a href="#一致性（consistency）" class="headerlink" title="一致性（consistency）"></a>一致性（consistency）</h5><p>数据库总是从一个一致性的状态转换到另一个一致性状态，即使执行到一半一桶崩溃事务中的修改也不会保存到数据中。</p>
+<h4 id="隔离性（isolation）"><a href="#隔离性（isolation）" class="headerlink" title="隔离性（isolation）"></a>隔离性（isolation）</h4><p>正常来说一个事务所做的提交在最终提交以前，对其它的事务应该<strong>通常</strong>是不可见的<strong>数据库的事务隔离级别会影响可见性</strong></p>
+<h4 id="持久性-durability"><a href="#持久性-durability" class="headerlink" title="持久性 (durability)"></a>持久性 (durability)</h4><p>事务做了提交，所有修改就会永久的保存到数据库中。即使系统崩溃，锁保存的数据也不会丢失。持久性是个模糊的概念，因为实际上持久性有很多级别。有些持久性策略能够提供安全的保障，有些则不能。<br>例如：可以把系统提交数据倒数据库的数据想成存入到银行的钱，银行有很多安全措施，比放在家里安全，但是如果银行破产了或钱被抢劫啦怎么办。可能就要考虑做各种容灾，数据的冗余备份，没有百分之百的持久性我们只能应该用各种方法尽量保证数据的持久性和可恢复性。</p>
+<h5 id="事务小节"><a href="#事务小节" class="headerlink" title="事务小节"></a>事务小节</h5><p>综上所述，数据库为了我们数据的安全做了这么多的努力和工作，一个实现了ACID的数据库，肯定需要更大的内存和磁盘空间，更强的cpu能力。<br>我们唯一要做好的就是根据自己的业务是否需要事务处理来选择合适的存储引擎，以获得更高的性能。及时引擎不支持事务也可以通过lock Tables 为应用提供一定程度的保护，如果这点程度都做不到，真的不好意思称自己为工程师。</p>
+<h4 id="事务的隔离级别"><a href="#事务的隔离级别" class="headerlink" title="事务的隔离级别"></a>事务的隔离级别</h4><p>上面在说隔离性的时候提到了一个事务在提交之前，其它事务应该是通常不可见的，注意是通常不过sql标准为了应对我门的一些业务场景做了四种隔离界别</p>
+<h5 id="事务的隔离界别"><a href="#事务的隔离界别" class="headerlink" title="事务的隔离界别"></a>事务的隔离界别</h5><p>隔离级别比想象跟复杂，SQL标准汇中定义了四种隔离级别，每一种级别都详细规定了一个事务中所做的修改在其它事务内和事务间是可见的，那些是不可兼得的，较低级别的隔离通常可以执行更高的并发，系统的开销也更低。</p>
+<h5 id="READ-UNCOMMITED-（未递交读）"><a href="#READ-UNCOMMITED-（未递交读）" class="headerlink" title="READ UNCOMMITED （未递交读）"></a>READ UNCOMMITED （未递交读）</h5><p>未提交读中如果事务做了修改即使没有提交，其它事务也是可以看见的。事务读到未提交的数据被称为脏读。照成问题的同时并未提高性能，所以一般在应用中很少使用。</p>
+<h5 id="READ-CIMMITED-（提交读）"><a href="#READ-CIMMITED-（提交读）" class="headerlink" title="READ CIMMITED （提交读）"></a>READ CIMMITED （提交读）</h5><p>一个事务开始到未提交之前，可以看到其它事务在此期间做的修改。也可以称为不可重复读（因为在事务中，两次读取的数据可能被其它事务修改）</p>
+<h5 id="REPEATABLE-READ（可重复度）"><a href="#REPEATABLE-READ（可重复度）" class="headerlink" title="REPEATABLE READ（可重复度）"></a>REPEATABLE READ（可重复度）</h5><p>可重复读解决了脏读的问题，保证了在同一事务中多次读取同样的记录结果是一致的。但是还是会产生幻读<br>幻读，并不是说两次读取获取的结果集不同，幻读侧重的方面是某一次的 select 操作得到的结果所表征的数据状态无法支撑后续的业务操作。更为具体一些：select 某记录是否存在，不存在，准备插入此记录，但执行 insert 时发现此记录已存在，无法插入，此时就发生了幻读。<br>（InnoDbhe 和XtraDb）通过多版本并发控制（mvcc）解决了幻读问题。</p>
+<h5 id="SERIALIZABLE-可串行化"><a href="#SERIALIZABLE-可串行化" class="headerlink" title="SERIALIZABLE(可串行化)"></a>SERIALIZABLE(可串行化)</h5><p>SERIALIZABLE是最高的隔离界别，通过强制事务串行执行，避免了幻读，但是会照成大量的锁竞争，非常需要保证数据一致性切没有可以接受并发的情况下，考虑使用该级别。</p>
+<h4 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h4><p>死锁是指两个或者多个事务在同一资源上相互占用，并请求锁定对方占用的资源，从而导致恶性循环的现象。当多个事务试图以不同的顺序锁定资源时候，就可能产生死锁。多个事务同时锁定同一个资源时，有也会产生死锁。<br>解决死锁问题，最简单的方法可能就是等到一个超时时间后放弃锁请求，显而易见这回影响性能，InnoDb可以检测到死锁依赖，并将持有最少行级排它锁的事务进行回滚。<br>锁的行为和顺序是会存储引擎相关的。以同样的顺序执行语句，有的引擎会死锁，有的不会。所以死锁产生有双重原因：有些是因为真正的数据冲突（很难避免），有些是完全由于存储引擎的实现方式导致的。<br>解除死锁只有部分或完全回滚一个事务才能打破死锁（有没有点珍珑棋局的感觉或者堵车必须有人倒车哈哈~）</p>
+<h4 id="事务日志"><a href="#事务日志" class="headerlink" title="事务日志"></a>事务日志</h4><p>修改内存拷贝，再把修改行行为顺序记录到磁盘的事务日志中，而不是实时把数据写入磁盘，这样数据在后台可以慢慢刷回磁盘。</p>
+<h4 id="mysql中的事务"><a href="#mysql中的事务" class="headerlink" title="mysql中的事务"></a>mysql中的事务</h4><p>mysql支持了两总事务型存储引擎：InnoDb和NDB Cluster。还有一些第三方存储引擎支持事务，例如XtaDb和PBXT。</p>
+<h5 id="自动提交（AUTOCOMMIT）"><a href="#自动提交（AUTOCOMMIT）" class="headerlink" title="自动提交（AUTOCOMMIT）"></a>自动提交（AUTOCOMMIT）</h5><p>自动提交打开如果不是显示的开始一个事务，则每个查询都被当作一个事务执行提交操作。同时也要也可以显示修改当前会话的隔离级别。</p>
+<h5 id="事务中混用存储引擎"><a href="#事务中混用存储引擎" class="headerlink" title="事务中混用存储引擎"></a>事务中混用存储引擎</h5><p>不要在一个事务中混用存储引擎，否则不支持事务的引擎在事务回滚时候无法撤销，这时候数据很难恢复</p>
+<h5 id="隐式和显式锁定"><a href="#隐式和显式锁定" class="headerlink" title="隐式和显式锁定"></a>隐式和显式锁定</h5><p>InnoDb才用的是两阶段锁定协议，在事务的执行过程中，随时都可以锁定执行，锁只有在执行commit或roolback的时候才会释放，且同一个时刻释放，所有锁都是隐式锁定，InnoDb会根据隔离级别在需要的时候自动加锁。<br>对不支持事务的引擎可以显示的执行lock。但是建议有事务需求的使用innodb引擎，行级锁毕竟可以有更好的定恩那个。尽量不使用显示锁。</p>
+<h4 id="多版本并发控制"><a href="#多版本并发控制" class="headerlink" title="多版本并发控制"></a>多版本并发控制</h4><p>mvcc可以认为是行级锁的变种，它在很多情况下避免了加锁操作，所以开销更低。虽然实现机制不同，但大都实现了非阻塞的读操作，写操作也只锁定了必要的行。<br>mvcc 是通过保存数据在墨哥时间点的快照实现的，也就是不管需要执行多长时间，每个事物看到的数据都是一致的。根据事物开始的时间不同，每个事物对同一张表，同一时刻看到的数据可能是不一样的。<br>MVCC只在repeatedbale Read和read comitted 两个隔离级别下工作，其它的隔离级别都和mvcc不兼容。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mysql-transction/" rel="tag"># mysql,transction</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/17/mysql/mysql%E6%9E%B6%E6%9E%84%E5%92%8C%E5%8E%86%E5%8F%B2/" rel="next" title="mysql架构和历史">
+                <i class="fa fa-chevron-left"></i> mysql架构和历史
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/20/mysql/mysql%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" rel="prev" title="mysql存储引擎">
+                mysql存储引擎 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">yvanli</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql事务"><span class="nav-number">1.</span> <span class="nav-text">mysql事务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#事务"><span class="nav-number">1.1.</span> <span class="nav-text">事务</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#原子性（atomicity）"><span class="nav-number">1.1.1.</span> <span class="nav-text">原子性（atomicity）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#一致性（consistency）"><span class="nav-number">1.1.2.</span> <span class="nav-text">一致性（consistency）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#隔离性（isolation）"><span class="nav-number">1.2.</span> <span class="nav-text">隔离性（isolation）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#持久性-durability"><span class="nav-number">1.3.</span> <span class="nav-text">持久性 (durability)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#事务小节"><span class="nav-number">1.3.1.</span> <span class="nav-text">事务小节</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#事务的隔离级别"><span class="nav-number">1.4.</span> <span class="nav-text">事务的隔离级别</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#事务的隔离界别"><span class="nav-number">1.4.1.</span> <span class="nav-text">事务的隔离界别</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#READ-UNCOMMITED-（未递交读）"><span class="nav-number">1.4.2.</span> <span class="nav-text">READ UNCOMMITED （未递交读）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#READ-CIMMITED-（提交读）"><span class="nav-number">1.4.3.</span> <span class="nav-text">READ CIMMITED （提交读）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#REPEATABLE-READ（可重复度）"><span class="nav-number">1.4.4.</span> <span class="nav-text">REPEATABLE READ（可重复度）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SERIALIZABLE-可串行化"><span class="nav-number">1.4.5.</span> <span class="nav-text">SERIALIZABLE(可串行化)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#死锁"><span class="nav-number">1.5.</span> <span class="nav-text">死锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#事务日志"><span class="nav-number">1.6.</span> <span class="nav-text">事务日志</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mysql中的事务"><span class="nav-number">1.7.</span> <span class="nav-text">mysql中的事务</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#自动提交（AUTOCOMMIT）"><span class="nav-number">1.7.1.</span> <span class="nav-text">自动提交（AUTOCOMMIT）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#事务中混用存储引擎"><span class="nav-number">1.7.2.</span> <span class="nav-text">事务中混用存储引擎</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#隐式和显式锁定"><span class="nav-number">1.7.3.</span> <span class="nav-text">隐式和显式锁定</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多版本并发控制"><span class="nav-number">1.8.</span> <span class="nav-text">多版本并发控制</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yvanli</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
