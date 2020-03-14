@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="mysql," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -79,17 +79,12 @@
 
 
 
-<meta name="description" content="参考文章链接 mysql服务搭建前置准备卸载旧mysql &amp;搭建环境创建用户组 1234567891011121314查看rpm包rpm -qa|grep mysql 若有可用rpm -e卸载查找mysql残留包，有则删除，没有则忽略find &#x2F; -name mysql安装相关依赖：yum -y install make gcc-c++ cmake bison-devel ncurses-">
-<meta property="og:type" content="article">
-<meta property="og:title" content="mysql服务搭建- mysql学习笔记">
-<meta property="og:url" content="http://yoursite.com/2019/12/16/mysql/mysqlLean/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="yvanliUpdagre">
+<meta property="og:url" content="http://yoursite.com/page/3/index.html">
 <meta property="og:site_name" content="yvanliUpdagre">
-<meta property="og:description" content="参考文章链接 mysql服务搭建前置准备卸载旧mysql &amp;搭建环境创建用户组 1234567891011121314查看rpm包rpm -qa|grep mysql 若有可用rpm -e卸载查找mysql残留包，有则删除，没有则忽略find &#x2F; -name mysql安装相关依赖：yum -y install make gcc-c++ cmake bison-devel ncurses-">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2019-12-16T12:26:01.000Z">
-<meta property="article:modified_time" content="2020-02-04T11:37:22.464Z">
 <meta property="article:author" content="yvanli">
-<meta property="article:tag" content="mysql">
 <meta name="twitter:card" content="summary">
 
 
@@ -120,13 +115,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/12/16/mysql/mysqlLean/"/>
+  <link rel="canonical" href="http://yoursite.com/page/3/"/>
 
 
 
 
 
-  <title>mysql服务搭建- mysql学习笔记 | yvanliUpdagre</title>
+  <title>yvanliUpdagre</title>
   
 
 
@@ -145,7 +140,8 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-left 
+  page-home">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -228,9 +224,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-
-  <div id="posts" class="posts-expand">
+  <section id="posts" class="posts-expand">
     
+      
 
   
 
@@ -260,7 +256,9 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">mysql服务搭建- mysql学习笔记</h1>
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/16/mysql/mysqlLean/" itemprop="url">mysql服务搭建- mysql学习笔记</a></h1>
         
 
         <div class="post-meta">
@@ -310,7 +308,9 @@
       
 
       
-        <p><a href="https://juejin.im/post/5cee01c0f265da1bca51bdaf" target="_blank" rel="noopener">参考文章链接</a></p>
+        
+          
+            <p><a href="https://juejin.im/post/5cee01c0f265da1bca51bdaf" target="_blank" rel="noopener">参考文章链接</a></p>
 <h2 id="mysql服务搭建"><a href="#mysql服务搭建" class="headerlink" title="mysql服务搭建"></a>mysql服务搭建</h2><h3 id="前置准备"><a href="#前置准备" class="headerlink" title="前置准备"></a>前置准备</h3><p>卸载旧mysql &amp;搭建环境创建用户组</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">查看rpm包</span><br><span class="line"></span><br><span class="line">rpm -qa|grep mysql 若有可用rpm -e卸载</span><br><span class="line"></span><br><span class="line">查找mysql残留包，有则删除，没有则忽略</span><br><span class="line"></span><br><span class="line">find / -name mysql</span><br><span class="line"></span><br><span class="line">安装相关依赖：</span><br><span class="line">yum -y install make gcc-c++ cmake bison-devel ncurses-devel numactl libaio</span><br><span class="line"></span><br><span class="line">最好要创建用户和用户组，用来权限管理</span><br><span class="line"></span><br><span class="line">groupadd mysql useradd -s /sbin/nologin -g mysql -M mysql</span><br></pre></td></tr></table></figure>
 
@@ -328,6 +328,8 @@
 
 
 
+          
+        
       
     </div>
     
@@ -342,36 +344,14 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/mysql/" rel="tag"># mysql</a>
-          
-        </div>
+
+      
+
       
 
       
       
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/12/17/mysql/mysql%E6%9E%B6%E6%9E%84%E5%92%8C%E5%8E%86%E5%8F%B2/" rel="prev" title="mysql架构和历史">
-                mysql架构和历史 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
+        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -381,11 +361,14 @@
   </article>
 
 
+    
+  </section>
 
-    <div class="post-spread">
-      
-    </div>
-  </div>
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/2/">&lt;i class&#x3D;&quot;fa fa-angle-left&quot;&gt;&lt;&#x2F;i&gt;</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
+
 
 
           </div>
@@ -393,10 +376,6 @@
 
 
           
-
-  
-
-
 
         </div>
         
@@ -417,17 +396,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -478,22 +448,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#mysql服务搭建"><span class="nav-number">1.</span> <span class="nav-text">mysql服务搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#前置准备"><span class="nav-number">1.1.</span> <span class="nav-text">前置准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下载二进制方式下载安装"><span class="nav-number">1.2.</span> <span class="nav-text">下载二进制方式下载安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下载解压mysql-配置文件夹权限"><span class="nav-number">1.3.</span> <span class="nav-text">下载解压mysql 配置文件夹权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建mysql相关目录"><span class="nav-number">1.4.</span> <span class="nav-text">创建mysql相关目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建mysql配置文件my-cof"><span class="nav-number">1.5.</span> <span class="nav-text">创建mysql配置文件my.cof</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置mysql-server"><span class="nav-number">1.6.</span> <span class="nav-text">配置mysql.server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动mysql服务"><span class="nav-number">1.7.</span> <span class="nav-text">启动mysql服务</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -627,10 +581,6 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
-
-
 
   
 
