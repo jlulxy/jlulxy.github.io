@@ -239,6 +239,131 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/15/leetcode/98-ValidataBinarySearchTree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yvanli">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yvanliUpdagre">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/15/leetcode/98-ValidataBinarySearchTree/" itemprop="url">98-ValidataBinarySearchTree</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-15T11:45:26+08:00">
+                2020-03-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="验证二叉搜索树"><a href="#验证二叉搜索树" class="headerlink" title="验证二叉搜索树"></a>验证二叉搜索树</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">给定一个二叉树，判断其是否是一个有效的二叉搜索树。</span><br><span class="line"></span><br><span class="line">假设一个二叉搜索树具有如下特征：</span><br><span class="line"></span><br><span class="line">节点的左子树只包含小于当前节点的数。</span><br><span class="line">节点的右子树只包含大于当前节点的数。</span><br><span class="line">所有左子树和右子树自身必须也是二叉搜索树。</span><br><span class="line">示例 1:</span><br><span class="line"></span><br><span class="line">输入:</span><br><span class="line">    2</span><br><span class="line">   / \</span><br><span class="line">  1   3</span><br><span class="line">输出: <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">来源：力扣（LeetCode）</span><br><span class="line">链接：https://leetcode-cn.com/problems/validate-binary-search-tree</span><br><span class="line">著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</span><br></pre></td></tr></table></figure>
+<h4 id="思路1"><a href="#思路1" class="headerlink" title="思路1"></a>思路1</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">// isValidBSTLeft 左边返回最大值</span><br><span class="line">// 判断思路返回字数的左最大和右再和跟比较判断条件比较复杂</span><br><span class="line">// 收集意见的方式需要大量的记录和调查比较</span><br><span class="line">func isValidBSTRe (root * TreeNode) (bool,int,int)&#123;</span><br><span class="line">	// 为假的情况先返回</span><br><span class="line">	// 左边大于返回<span class="literal">false</span></span><br><span class="line">	var min,max,leftMax,rightMin int</span><br><span class="line">	var left,right ,leftNil,rightNil bool</span><br><span class="line">	<span class="keyword">if</span> root.Left != nil &amp;&amp; root.Left.Val &gt; root.Val&#123;</span><br><span class="line">		<span class="built_in">return</span> <span class="literal">false</span>,0,0</span><br><span class="line">	&#125;</span><br><span class="line">	//右边小返回<span class="literal">false</span></span><br><span class="line">	<span class="keyword">if</span> root.Right != nil &amp;&amp; root.Right.Val &lt; root.Val&#123;</span><br><span class="line">		<span class="built_in">return</span> <span class="literal">false</span>,0,0</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> root.Right == nil &amp;&amp; root.Left ==nil&#123;</span><br><span class="line">		<span class="built_in">return</span> <span class="literal">true</span>,root.Val,root.Val</span><br><span class="line">	&#125;</span><br><span class="line">	// 判断左情况</span><br><span class="line">	<span class="keyword">if</span> root.Left == nil &#123;</span><br><span class="line">		min = root.Val</span><br><span class="line">		left = <span class="literal">true</span></span><br><span class="line">		leftNil = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		left ,min,leftMax = isValidBSTRe(root.Left)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> root.Right == nil &#123;</span><br><span class="line">		max = root.Val</span><br><span class="line">		rightNil = <span class="literal">true</span></span><br><span class="line">		right = <span class="literal">true</span></span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		right,rightMin,max = isValidBSTRe(root.Right)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> left &amp;&amp; right &amp;&amp; (leftMax &lt; root.Val || leftNil) &amp;&amp; (rightMin &gt; root.Val || rightNil )&#123;</span><br><span class="line">		<span class="built_in">return</span> <span class="literal">true</span>,min,max</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">return</span> <span class="literal">false</span>,0,0</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="思路2"><a href="#思路2" class="headerlink" title="思路2"></a>思路2</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// _isValidBST从上到到下限制子树约束条件，简单方便</span><br><span class="line">// 立规矩的方式，你就按照我的范围搞，符合条件你愿意是啥是啥！</span><br><span class="line">func _isValidBST(root *TreeNode, min int, max int) bool &#123;</span><br><span class="line">	<span class="keyword">if</span> root == nil &#123;</span><br><span class="line">		<span class="built_in">return</span> <span class="literal">true</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> min &gt;= root.Val || root.Val &gt;= max &#123;</span><br><span class="line">		<span class="built_in">return</span> <span class="literal">false</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">return</span> _isValidBST(root.Left, min, root.Val) &amp;&amp; _isValidBST(root.Right, root.Val, max)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>可以看到两个想法实际上本质都是递归但是在处理子树最大和最小值时候是完全两种思路。<br>方法1:收集子树的反馈（做调查），根节点比较民主，你们报上你们的范围，我看看我跟你们匹配不不匹配我不称职好我下台。跟的父亲发现自己选的下级下台了，完了我一手提拔的下台了我也下台吧。比较民主但是实现复杂，需要记录各种状态，但是可以保存每一步子树的情况后续可以进一步扩展。<br>方法2:给每个子树限定范围（立规矩），跟节点“老子就这样，你们按老子标准走，不符合的滚，老子上报下是这帮儿子不行连累了我不行”。方法简单，每次只需要把根节点的值最为范围立规范。依次往下迭代就行。但是没有记录下面的状态题目变更后可能不再适用。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/14/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1344,130 +1469,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/05/leetcode/leetcode-146LRUCache/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="yvanli">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="yvanliUpdagre">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/01/05/leetcode/leetcode-146LRUCache/" itemprop="url">leetcode-146LRUCache</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-01-05T12:34:03+08:00">
-                2020-01-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="LRU-Cahce-思路演进"><a href="#LRU-Cahce-思路演进" class="headerlink" title="LRU Cahce 思路演进"></a>LRU Cahce 思路演进</h3><h4 id="LRU第一版本思想"><a href="#LRU第一版本思想" class="headerlink" title="LRU第一版本思想"></a>LRU第一版本思想</h4><p><strong>头尾位独立处理实现复杂容易出错。</strong><br>采用map实现o(1)获取<br>使用双向链表控制LRU，一直有个用例不过<br>golang 实现如下：测试用例 12 / 18 个通过测试用例.<br>经过debug后发现为题判断如果是头指针和移除节点一致时处理除了问题</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> LRUCache struct &#123;</span><br><span class="line">    dataMap map[int]*ListDataNode</span><br><span class="line">    head *ListDataNode</span><br><span class="line">    tail *ListDataNode</span><br><span class="line">    capacity int</span><br><span class="line">    use int</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">type</span> ListDataNode struct&#123;</span><br><span class="line">    data  int</span><br><span class="line">    key   int</span><br><span class="line">    pre *ListDataNode</span><br><span class="line">    next *ListDataNode</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">func Constructor(capacity int) LRUCache &#123;</span><br><span class="line">    Cache :=LRUCache&#123;</span><br><span class="line">        dataMap :make(map[int]*ListDataNode,capacity),</span><br><span class="line">        head :nil,</span><br><span class="line">        tail :nil,</span><br><span class="line">        capacity: capacity,</span><br><span class="line">        use:0,</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> Cache</span><br><span class="line">&#125;</span><br><span class="line">//取出操作的节点</span><br><span class="line">func (this *LRUCache) TakeOutNode( node *ListDataNode)&#123;</span><br><span class="line">    <span class="keyword">if</span> node.pre!=nil&#123;</span><br><span class="line">        node.pre.next = node.next</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> node.next !=nil&#123;</span><br><span class="line">        node.next.pre = node.pre</span><br><span class="line">    &#125;</span><br><span class="line">    //node 是尾节点，尾节点要前移动</span><br><span class="line">    <span class="keyword">if</span> node == this.tail&#123;</span><br><span class="line">        this.tail = node.pre</span><br><span class="line">    &#125;</span><br><span class="line">    /*</span><br><span class="line">    //node是头节点，头节点滞空</span><br><span class="line">    <span class="keyword">if</span> node == this.head&#123;</span><br><span class="line">        this.head = nil</span><br><span class="line">    &#125;</span><br><span class="line">    */</span><br><span class="line">    上面是错误的写法这里更正下,移除节点是头，并不意味着链表中没有头节点啦，所以这里不应应该直接指空</span><br><span class="line">    <span class="keyword">if</span> node == this.head&#123;</span><br><span class="line">        this.head = node.next</span><br><span class="line">    &#125;</span><br><span class="line">    //养成好习惯不用的指针处理掉</span><br><span class="line">    node.pre = nil</span><br><span class="line">    node.next = nil</span><br><span class="line">&#125;</span><br><span class="line">func (this *LRUCache) Get(key int) int &#123;</span><br><span class="line">    <span class="keyword">if</span> node ,ok := this.dataMap[key];ok&#123;</span><br><span class="line">        this.TakeOutNode(node)</span><br><span class="line">        this.AddHead(node)</span><br><span class="line">        <span class="built_in">return</span> node.data</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> -1    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//把刚操作的放在最前面</span><br><span class="line">func (this *LRUCache) Put(key int, value int)  &#123;</span><br><span class="line">    //检查是否存在，存在的直接更新值同时把节点移到head</span><br><span class="line">    <span class="keyword">if</span>  node ,ok := this.dataMap[key];ok&#123;</span><br><span class="line">		node.data = value</span><br><span class="line">        node.key = key</span><br><span class="line">        this.TakeOutNode(node)</span><br><span class="line">		this.AddHead(node)</span><br><span class="line">		<span class="built_in">return</span> </span><br><span class="line">	&#125;</span><br><span class="line">    <span class="keyword">if</span> this.use &gt;= this.capacity&#123;</span><br><span class="line">        //队列满了先去掉队列尾巴把再插入</span><br><span class="line">        this.DeleteTailNode()</span><br><span class="line">    &#125;</span><br><span class="line">    node := &amp;ListDataNode&#123;</span><br><span class="line">        data:value,</span><br><span class="line">        key:key,</span><br><span class="line">    &#125;</span><br><span class="line">    this.dataMap[key] = node</span><br><span class="line">    this.AddHead(node)</span><br><span class="line">    this.use++</span><br><span class="line">&#125;</span><br><span class="line">//把节点插入头里面</span><br><span class="line">func (this *LRUCache) AddHead(node *ListDataNode)&#123;</span><br><span class="line">        <span class="keyword">if</span> this.head == nil&#123;</span><br><span class="line">            this.head = node</span><br><span class="line">            this.tail = node</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            //把该节点放入队列头</span><br><span class="line">            tmp :=this.head</span><br><span class="line">            this.head = node</span><br><span class="line">            node.next = tmp</span><br><span class="line">            tmp.pre = node          </span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//删除尾部节点</span><br><span class="line">func (this *LRUCache)<span class="function"><span class="title">DeleteTailNode</span></span>()&#123;</span><br><span class="line">    //获取尾节点</span><br><span class="line">    <span class="keyword">if</span> this.tail == nil&#123;</span><br><span class="line">        <span class="built_in">return</span> </span><br><span class="line">    &#125;</span><br><span class="line">    key := this.tail.key</span><br><span class="line">    <span class="keyword">if</span> _,ok :=this.dataMap[key];ok&#123;</span><br><span class="line">        this.dataMap[key] = nil</span><br><span class="line">        delete(this.dataMap,key)</span><br><span class="line">        //从尾部节点拿掉</span><br><span class="line">        tmp := this.tail</span><br><span class="line">        this.tail = tmp.pre</span><br><span class="line">        <span class="keyword">if</span> tmp.pre !=nil&#123;</span><br><span class="line">            tmp.pre.next = nil</span><br><span class="line">        &#125;</span><br><span class="line">        this.use--</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="LRU第二版本思想"><a href="#LRU第二版本思想" class="headerlink" title="LRU第二版本思想"></a>LRU第二版本思想</h4><p><strong>独立申请头尾哨兵节点，数据节点不在可能是头或尾部节点，插入和移除不用考虑过多情况实现简洁，不过在空间很小的情况下会多占两个节点可能空间会多O(2),但是带来的简洁性更高</strong></p>
-<p>代码如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> LRUCache struct &#123;</span><br><span class="line">	dataMap map[int]*ListDataNode</span><br><span class="line">	head *ListDataNode</span><br><span class="line">	tail *ListDataNode</span><br><span class="line">	capacity int</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">type</span> ListDataNode struct&#123;</span><br><span class="line">	data  int</span><br><span class="line">	key   int</span><br><span class="line">	pre *ListDataNode</span><br><span class="line">	next *ListDataNode</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">func Constructor(capacity int) LRUCache &#123;</span><br><span class="line">	head ,tail := new(ListDataNode),new(ListDataNode)</span><br><span class="line">    // 初始化cache 头尾相连作为哨兵，从头插入，从尾部移除</span><br><span class="line">	head.next = tail</span><br><span class="line">	tail.pre = head</span><br><span class="line">	head.next = tail</span><br><span class="line">	tail.pre = head</span><br><span class="line">	Cache :=LRUCache&#123;</span><br><span class="line">		dataMap :make(map[int]*ListDataNode,capacity),</span><br><span class="line">		head :head,</span><br><span class="line">		tail :tail,</span><br><span class="line">		capacity: capacity,</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">return</span> Cache</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 移除节点</span><br><span class="line">func (this *LRUCache) remove( node *ListDataNode)&#123;</span><br><span class="line">	node.pre.next = node.next</span><br><span class="line">	node.next.pre = node.pre</span><br><span class="line">    node.next = nil</span><br><span class="line">    node.pre = nil</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 插入头后面进入</span><br><span class="line">func (this *LRUCache) insertHead (node *ListDataNode)&#123;</span><br><span class="line">	head := this.head</span><br><span class="line">	node.next = head.next</span><br><span class="line">	node.pre = head</span><br><span class="line">	head.next.pre = node</span><br><span class="line">	head.next = node</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (this *LRUCache) Get(key int) int &#123;</span><br><span class="line">	<span class="keyword">if</span> node ,ok := this.dataMap[key];ok&#123;</span><br><span class="line">		this.remove(node)</span><br><span class="line">		this.insertHead(node)</span><br><span class="line">		<span class="built_in">return</span> node.data</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">return</span> -1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//把刚操作的放在最前面</span><br><span class="line">func (this *LRUCache) Put(key int, value int)  &#123;</span><br><span class="line">	<span class="keyword">if</span>  node ,ok := this.dataMap[key];ok&#123;</span><br><span class="line">		node.data = value</span><br><span class="line">		this.remove(node)</span><br><span class="line">		this.insertHead(node)</span><br><span class="line">		<span class="built_in">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> len(this.dataMap) &gt;= this.capacity&#123;</span><br><span class="line">		//队列满了先去掉队列尾巴把再插入</span><br><span class="line">		node := this.tail.pre</span><br><span class="line">		this.remove(node)</span><br><span class="line">		delete(this.dataMap,node.key)</span><br><span class="line">	&#125;</span><br><span class="line">	node := &amp;ListDataNode&#123;</span><br><span class="line">		data:value,</span><br><span class="line">		key:key,</span><br><span class="line">	&#125;</span><br><span class="line">	this.dataMap[key] = node</span><br><span class="line">	this.insertHead(node)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1518,7 +1519,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1531,7 +1532,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>

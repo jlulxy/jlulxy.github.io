@@ -239,6 +239,130 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/05/leetcode/leetcode-146LRUCache/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yvanli">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yvanliUpdagre">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/01/05/leetcode/leetcode-146LRUCache/" itemprop="url">leetcode-146LRUCache</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-01-05T12:34:03+08:00">
+                2020-01-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="LRU-Cahce-思路演进"><a href="#LRU-Cahce-思路演进" class="headerlink" title="LRU Cahce 思路演进"></a>LRU Cahce 思路演进</h3><h4 id="LRU第一版本思想"><a href="#LRU第一版本思想" class="headerlink" title="LRU第一版本思想"></a>LRU第一版本思想</h4><p><strong>头尾位独立处理实现复杂容易出错。</strong><br>采用map实现o(1)获取<br>使用双向链表控制LRU，一直有个用例不过<br>golang 实现如下：测试用例 12 / 18 个通过测试用例.<br>经过debug后发现为题判断如果是头指针和移除节点一致时处理除了问题</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> LRUCache struct &#123;</span><br><span class="line">    dataMap map[int]*ListDataNode</span><br><span class="line">    head *ListDataNode</span><br><span class="line">    tail *ListDataNode</span><br><span class="line">    capacity int</span><br><span class="line">    use int</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">type</span> ListDataNode struct&#123;</span><br><span class="line">    data  int</span><br><span class="line">    key   int</span><br><span class="line">    pre *ListDataNode</span><br><span class="line">    next *ListDataNode</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">func Constructor(capacity int) LRUCache &#123;</span><br><span class="line">    Cache :=LRUCache&#123;</span><br><span class="line">        dataMap :make(map[int]*ListDataNode,capacity),</span><br><span class="line">        head :nil,</span><br><span class="line">        tail :nil,</span><br><span class="line">        capacity: capacity,</span><br><span class="line">        use:0,</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> Cache</span><br><span class="line">&#125;</span><br><span class="line">//取出操作的节点</span><br><span class="line">func (this *LRUCache) TakeOutNode( node *ListDataNode)&#123;</span><br><span class="line">    <span class="keyword">if</span> node.pre!=nil&#123;</span><br><span class="line">        node.pre.next = node.next</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> node.next !=nil&#123;</span><br><span class="line">        node.next.pre = node.pre</span><br><span class="line">    &#125;</span><br><span class="line">    //node 是尾节点，尾节点要前移动</span><br><span class="line">    <span class="keyword">if</span> node == this.tail&#123;</span><br><span class="line">        this.tail = node.pre</span><br><span class="line">    &#125;</span><br><span class="line">    /*</span><br><span class="line">    //node是头节点，头节点滞空</span><br><span class="line">    <span class="keyword">if</span> node == this.head&#123;</span><br><span class="line">        this.head = nil</span><br><span class="line">    &#125;</span><br><span class="line">    */</span><br><span class="line">    上面是错误的写法这里更正下,移除节点是头，并不意味着链表中没有头节点啦，所以这里不应应该直接指空</span><br><span class="line">    <span class="keyword">if</span> node == this.head&#123;</span><br><span class="line">        this.head = node.next</span><br><span class="line">    &#125;</span><br><span class="line">    //养成好习惯不用的指针处理掉</span><br><span class="line">    node.pre = nil</span><br><span class="line">    node.next = nil</span><br><span class="line">&#125;</span><br><span class="line">func (this *LRUCache) Get(key int) int &#123;</span><br><span class="line">    <span class="keyword">if</span> node ,ok := this.dataMap[key];ok&#123;</span><br><span class="line">        this.TakeOutNode(node)</span><br><span class="line">        this.AddHead(node)</span><br><span class="line">        <span class="built_in">return</span> node.data</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> -1    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//把刚操作的放在最前面</span><br><span class="line">func (this *LRUCache) Put(key int, value int)  &#123;</span><br><span class="line">    //检查是否存在，存在的直接更新值同时把节点移到head</span><br><span class="line">    <span class="keyword">if</span>  node ,ok := this.dataMap[key];ok&#123;</span><br><span class="line">		node.data = value</span><br><span class="line">        node.key = key</span><br><span class="line">        this.TakeOutNode(node)</span><br><span class="line">		this.AddHead(node)</span><br><span class="line">		<span class="built_in">return</span> </span><br><span class="line">	&#125;</span><br><span class="line">    <span class="keyword">if</span> this.use &gt;= this.capacity&#123;</span><br><span class="line">        //队列满了先去掉队列尾巴把再插入</span><br><span class="line">        this.DeleteTailNode()</span><br><span class="line">    &#125;</span><br><span class="line">    node := &amp;ListDataNode&#123;</span><br><span class="line">        data:value,</span><br><span class="line">        key:key,</span><br><span class="line">    &#125;</span><br><span class="line">    this.dataMap[key] = node</span><br><span class="line">    this.AddHead(node)</span><br><span class="line">    this.use++</span><br><span class="line">&#125;</span><br><span class="line">//把节点插入头里面</span><br><span class="line">func (this *LRUCache) AddHead(node *ListDataNode)&#123;</span><br><span class="line">        <span class="keyword">if</span> this.head == nil&#123;</span><br><span class="line">            this.head = node</span><br><span class="line">            this.tail = node</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            //把该节点放入队列头</span><br><span class="line">            tmp :=this.head</span><br><span class="line">            this.head = node</span><br><span class="line">            node.next = tmp</span><br><span class="line">            tmp.pre = node          </span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//删除尾部节点</span><br><span class="line">func (this *LRUCache)<span class="function"><span class="title">DeleteTailNode</span></span>()&#123;</span><br><span class="line">    //获取尾节点</span><br><span class="line">    <span class="keyword">if</span> this.tail == nil&#123;</span><br><span class="line">        <span class="built_in">return</span> </span><br><span class="line">    &#125;</span><br><span class="line">    key := this.tail.key</span><br><span class="line">    <span class="keyword">if</span> _,ok :=this.dataMap[key];ok&#123;</span><br><span class="line">        this.dataMap[key] = nil</span><br><span class="line">        delete(this.dataMap,key)</span><br><span class="line">        //从尾部节点拿掉</span><br><span class="line">        tmp := this.tail</span><br><span class="line">        this.tail = tmp.pre</span><br><span class="line">        <span class="keyword">if</span> tmp.pre !=nil&#123;</span><br><span class="line">            tmp.pre.next = nil</span><br><span class="line">        &#125;</span><br><span class="line">        this.use--</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="LRU第二版本思想"><a href="#LRU第二版本思想" class="headerlink" title="LRU第二版本思想"></a>LRU第二版本思想</h4><p><strong>独立申请头尾哨兵节点，数据节点不在可能是头或尾部节点，插入和移除不用考虑过多情况实现简洁，不过在空间很小的情况下会多占两个节点可能空间会多O(2),但是带来的简洁性更高</strong></p>
+<p>代码如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> LRUCache struct &#123;</span><br><span class="line">	dataMap map[int]*ListDataNode</span><br><span class="line">	head *ListDataNode</span><br><span class="line">	tail *ListDataNode</span><br><span class="line">	capacity int</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">type</span> ListDataNode struct&#123;</span><br><span class="line">	data  int</span><br><span class="line">	key   int</span><br><span class="line">	pre *ListDataNode</span><br><span class="line">	next *ListDataNode</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">func Constructor(capacity int) LRUCache &#123;</span><br><span class="line">	head ,tail := new(ListDataNode),new(ListDataNode)</span><br><span class="line">    // 初始化cache 头尾相连作为哨兵，从头插入，从尾部移除</span><br><span class="line">	head.next = tail</span><br><span class="line">	tail.pre = head</span><br><span class="line">	head.next = tail</span><br><span class="line">	tail.pre = head</span><br><span class="line">	Cache :=LRUCache&#123;</span><br><span class="line">		dataMap :make(map[int]*ListDataNode,capacity),</span><br><span class="line">		head :head,</span><br><span class="line">		tail :tail,</span><br><span class="line">		capacity: capacity,</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">return</span> Cache</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 移除节点</span><br><span class="line">func (this *LRUCache) remove( node *ListDataNode)&#123;</span><br><span class="line">	node.pre.next = node.next</span><br><span class="line">	node.next.pre = node.pre</span><br><span class="line">    node.next = nil</span><br><span class="line">    node.pre = nil</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 插入头后面进入</span><br><span class="line">func (this *LRUCache) insertHead (node *ListDataNode)&#123;</span><br><span class="line">	head := this.head</span><br><span class="line">	node.next = head.next</span><br><span class="line">	node.pre = head</span><br><span class="line">	head.next.pre = node</span><br><span class="line">	head.next = node</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (this *LRUCache) Get(key int) int &#123;</span><br><span class="line">	<span class="keyword">if</span> node ,ok := this.dataMap[key];ok&#123;</span><br><span class="line">		this.remove(node)</span><br><span class="line">		this.insertHead(node)</span><br><span class="line">		<span class="built_in">return</span> node.data</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">return</span> -1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//把刚操作的放在最前面</span><br><span class="line">func (this *LRUCache) Put(key int, value int)  &#123;</span><br><span class="line">	<span class="keyword">if</span>  node ,ok := this.dataMap[key];ok&#123;</span><br><span class="line">		node.data = value</span><br><span class="line">		this.remove(node)</span><br><span class="line">		this.insertHead(node)</span><br><span class="line">		<span class="built_in">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> len(this.dataMap) &gt;= this.capacity&#123;</span><br><span class="line">		//队列满了先去掉队列尾巴把再插入</span><br><span class="line">		node := this.tail.pre</span><br><span class="line">		this.remove(node)</span><br><span class="line">		delete(this.dataMap,node.key)</span><br><span class="line">	&#125;</span><br><span class="line">	node := &amp;ListDataNode&#123;</span><br><span class="line">		data:value,</span><br><span class="line">		key:key,</span><br><span class="line">	&#125;</span><br><span class="line">	this.dataMap[key] = node</span><br><span class="line">	this.insertHead(node)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/03/golang%E9%9A%8F%E7%AC%94/workPool%E5%AE%9E%E7%8E%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1440,135 +1564,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/17/mysql/mysql%E6%9E%B6%E6%9E%84%E5%92%8C%E5%8E%86%E5%8F%B2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="yvanli">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="yvanliUpdagre">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/17/mysql/mysql%E6%9E%B6%E6%9E%84%E5%92%8C%E5%8E%86%E5%8F%B2/" itemprop="url">mysql架构和历史</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-12-17T19:30:32+08:00">
-                2019-12-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="mysql的架构和历史"><a href="#mysql的架构和历史" class="headerlink" title="mysql的架构和历史"></a>mysql的架构和历史</h2><h3 id="mysql最基本的架构图"><a href="#mysql最基本的架构图" class="headerlink" title="mysql最基本的架构图"></a>mysql最基本的架构图</h3><p><img src="/images/mysqlStruct.png" alt=""></p>
-<p>第一层：服务处理链接，授权和安全（一般服务都是如此架构）<br>第二层：是mysql核心部分，查询解析，分析，优化，缓存和内置函数包括存储过程，触发器，视图的等夸引擎操作都在这一层实现。<br>第三层：存储引擎层，只负责数据的存储和提取。服务通过API与存储引擎进行通信，使上层查询透明，eg：“开始一个事务”或则“根据组件提取一行记录”。存储引擎不解析sql，不同的存储引擎也不互相通信，简单的响应上层服务器的请求。</p>
-<h3 id="链接管理与安全性"><a href="#链接管理与安全性" class="headerlink" title="链接管理与安全性"></a>链接管理与安全性</h3><h4 id="链接管理"><a href="#链接管理" class="headerlink" title="链接管理"></a>链接管理</h4><p>每一个客户端连接都会拥有一个线程，并使用线程池（mysql5.5）的方式，不用每次链接都创建或销毁线程</p>
-<h4 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h4><p>客户端链接到mysql的服务器的时候mysql服务器会进行认证，基于用户名，密码，原始主机信息，如果使用ssl的方式也会雁阵证书，同时服务还会继续验证客户端是否具有某个特定操作的权限。</p>
-<h4 id="优化执行"><a href="#优化执行" class="headerlink" title="优化执行"></a>优化执行</h4><p>mysql会解析查询，并创建内部的数据结构（解析树），然后对其进行各种优化，包括重写查询，决定表的读取顺序，选择合适的索引。用户可以通过关键字提示（hint）优化器，影响他的决策过程。也可以请求优化器解释优化过程的各个因素，是用户知道服务器如何进行决策优化的，并提供一个产考基准，便于用户重构查询和schema，修改相关配置使应用尽可能的高效运转。<br>存储引擎对于优化查询有影响，优化器会请求存储引擎提供容量或某个具体操作的开销信息，表数据的统计信息等。<br>对于select语句，在解析查询之前服务会先检查查询缓存（query Cache），如果能找到对应查询，就不再执行查询解析，优化，执行的过程直接返回查询结果集合</p>
-<h3 id="并发控制"><a href="#并发控制" class="headerlink" title="并发控制"></a>并发控制</h3><p>无论在什么,系统无论在何时，同一个时刻多个线程操作或修改同一份数据，都回引发并发控制问题。本小节学习和了解mysql在两个成名的并发控制：服务层与存储引擎层。通常处理并发我们是采用互斥锁的机制，但是锁相当于在只有一个进程可以处理该数据，这显然是把并发限定为顺序执行，对大型系统来说相当于在高速公路建了个收费站，很难受。</p>
-<h4 id="读写锁"><a href="#读写锁" class="headerlink" title="读写锁"></a>读写锁</h4><p>如果换一种思想，“我就看看我不上手”，是不是就不会打扰“上手”修改的，你改你的我看我的。这里就是读/写锁(read lock / write loce)的思想 也是我们常说的共享锁（shared lock） 和排他锁（exclusive lock）.使用读写锁可以保证只有写该数据的时候才阻塞其它的读锁和写锁。在只有读的情况下大家各自看各自的谁也不打扰谁</p>
-<h5 id="锁粒度"><a href="#锁粒度" class="headerlink" title="锁粒度"></a>锁粒度</h5><p>我们可以想一下我们的数据库可以有多个库，每个库有多个表，每个表有很多行数据，我们到底对什么粒度数据加锁呢？不用想很定时粒度约细冲突越少，但是需要锁的个数就越多。最理想的方式就是对修改的数据片进行精确的锁定，任何情况下锁的资源越少，冲突才会越少，并发才会越高。<br>另一个角度使用锁也是需要消耗资源的，位置锁内存，获得锁，检查锁的状态都是系统开销，如何找到平衡就是锁策略。<br>锁策略：在锁的开销和数据安全性之间寻找平衡。mysql 提供了跟多的选择，mysql存储引擎有自己的锁策略和锁粒度。mysql支持多个存储引擎的架构，所以不需要通用的解决方案。</p>
-<h5 id="表锁"><a href="#表锁" class="headerlink" title="表锁"></a>表锁</h5><p>表锁是最基本的锁策略，也是开销最小的锁策略，顾名思义就是锁定整张表。用户对该表进行写操作（插入，删除，更新等）需要先得到表写锁，同时阻塞所有其它用户对该表的读/写操作。对表的读是不阻塞的。<br>尽管存储引擎可以管理自己的锁，但是musql还会根据各种有效的表锁来实现不同的目的。例如服务器回味alter table等语句使用表锁，忽略存储引擎的标所机制</p>
-<h5 id="行锁"><a href="#行锁" class="headerlink" title="行锁"></a>行锁</h5><p>行级锁，因该是mysql最小的单元啦，如果粒度细致到行的column程度开销就太大啦。重所周知，（我之前咋不知道）innodb和xtradb一其它的一些存储引擎实现了行级锁，行级锁只在存储引擎层面实现，mysql服务器层并没有实现。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1619,7 +1614,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1632,7 +1627,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
